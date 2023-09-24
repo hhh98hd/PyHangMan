@@ -16,7 +16,10 @@ def load_dictionary():
 def log(msg):
     if LOGGING_ENABLED:
         now = datetime.now()
-        dt_str = now.strftime("%H:%M:%S-%d/%m/%y.%f")[:-3]
+        time_str = now.strftime("%H:%M:%S.%f")[:-3]
+        date_str = now.strftime("%d/%m/%y")
+                
+        dt_str = time_str + "-" + date_str
         
         log_msg = '[' + dt_str +'] ' + msg
         print(log_msg)
