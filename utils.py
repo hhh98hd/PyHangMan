@@ -27,4 +27,3 @@ def log(msg):
         if(LOG_TO_FILE):
             file = open(file_name, 'a')
             file.write(log_msg + '\n')
-

@@ -1,29 +1,23 @@
 import sys
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PySide6.QtWidgets import QApplication
+from PySide6.QtQml import QQmlApplicationEngine
 
 from HangMan import HangMan
-from utils import log
+from configs import QML_MAIN
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("My App")
-        button = QPushButton("Press Me!")
-        button.setCheckable(True)
-        button.clicked.connect(self.the_button_was_clicked) # Connect the signal to the slot
-        self.setCentralWidget(button)
-
-    def the_button_was_clicked(self): # This is the slot
-        log("Clicked!")
-
-if __name__ == '__main__':
+if __name__ == '__main__' :
+    print('Starting ...')
+    
     game = HangMan()
+    word = game.get_random_word()
+    word = game.get_random_word()
     
     app = QApplication()
-    window = MainWindow()
-    window.setFixedWidth(800)
-    window.setFixedHeight(600)
-    window.show()
+    engine = QQmlApplicationEngine()
+    
+    engine.quit.connect(app.quit)
+    engine.load(QML_MAIN)
+    
     sys.exit(app.exec())
     
