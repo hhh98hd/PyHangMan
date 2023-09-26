@@ -44,20 +44,4 @@ class HangMan(QObject):
                 log("[HangMan::get_random_word] Returning \"" + word + "\"\n")
                 
                 return word
-            
-    
-            
-    # EVENTS
-            
-    # EVENT HANDLERS #
-    def on_key_chosen(key : str):
-        pass
-    
-    def on_key_pressed(key : str):
-        if(not key.isalpha()):
-            return
-        
-        log('Key {key} pressed')
-        
-        
                 

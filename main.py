@@ -7,10 +7,9 @@ from HangMan import HangMan
 from configs import QML_MAIN
 
 if __name__ == '__main__' :
-    print('Starting ...')
+    print('Starting ...\n')
     
     game = HangMan()
-    word = game.get_random_word()
     word = game.get_random_word()
     
     app = QApplication()

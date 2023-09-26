@@ -1,4 +1,4 @@
 {
-    "files": ["utils.py","configs.py","HangMan.py","main.qml","data/dictionary.txt","main.py","log/.gitkeep","gui/main.qml"]
+    "files": ["main.qml","log/.gitkeep","HangMan.py","gui/main.qml","configs.py","main.py","data/dictionary.txt","gui/Key.qml","utils.py","gui/Keyboard.qml"]
 }
 
