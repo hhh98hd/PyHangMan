@@ -6,9 +6,22 @@ Item {
     height: 50
 
     property alias letter: itemText.text
-    signal keyPressed(key: string)
+    property alias color: itemRect.color
+
+    property int row
+    property int idx
+    property bool enabled: true
+
+    signal keyPressed(key: string, row: int, index: int)
+
+    function reset() {
+        itemRoot.enabled = true;
+        itemRect.color = "#abdbe3";
+        itemText.color = "black";
+    }
 
     Rectangle {
+        id: itemRect
         anchors.fill: parent
         radius: 8
         color: "#abdbe3"
@@ -25,25 +38,32 @@ Item {
             hoverEnabled: true
 
             onEntered: {
-                parent.color = "#0967a4";
-                itemText.color = "white"
+                if(itemRoot.enabled) {
+                    parent.color = "#0967a4";
+                    itemText.color = "white"
+                }
             }
 
             onExited: {
-                parent.color = "#abdbe3";
-                itemText.color = "black"
+                if(itemRoot.enabled) {
+                    parent.color = "#abdbe3";
+                    itemText.color = "black"
+                }
             }
 
             onPressed: {
-                parent.color = "#e28743";
+                if(itemRoot.enabled)
+                    parent.color = "#e28743";
             }
 
             onReleased: {
-                parent.color = "#0967a4";
+                if(itemRoot.enabled)
+                    parent.color = "#0967a4";
             }
 
             onClicked: {
-                itemRoot.keyPressed(itemText.text);
+                if(itemRoot.enabled)
+                    itemRoot.keyPressed(itemText.text, itemRoot.row, itemRoot.idx);
             }
         }
     }

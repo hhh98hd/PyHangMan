@@ -1,6 +1,6 @@
 import random
 
-from PySide6.QtCore import QObject
+from PySide6.QtCore import QObject, Property
 
 from utils import (load_dictionary, log)
 from configs import (
@@ -8,6 +8,7 @@ from configs import (
     LIVES)
 
 class HangMan(QObject):
+    
     def __init__(self) -> None:
         log('[HangMan::HangMan] Initializing ...')
         
@@ -31,6 +32,10 @@ class HangMan(QObject):
             random.seed(RANDOM_SEED)
             
         log('[HangMan::HangMan] Initialization completed!\n')
+        
+        
+        # QML Properties #
+        
             
     def get_random_word(self) -> str:
         # To avoid getting duplicated words        
