@@ -8,14 +8,22 @@ ApplicationWindow {
     height: 500
     title: "Hang Man"
 
+    signal requestNewWord();
+
+    function onNewWordReceived(word: string, hiddenWord: string, numHidden: int) {
+        root.hiddenWord = word;
+        root.displayWord = hiddenWord;
+        root.numHidden = numHidden;
+    }
+
     Rectangle {
         id: root
         anchors.fill: parent
         color: "transparent"
 
-        property string hiddenWord: "SYSTEM THINKING"
-        property string displayWord: "_Y___M _H__K_NG"
-        property int numHidden: 8
+        property string hiddenWord: ""
+        property string displayWord: ""
+        property int numHidden: 0
         property var usedKeys: [];
 
         function onKeyPressed(key : string, row : int, index : int) {
@@ -37,8 +45,7 @@ ApplicationWindow {
 
             // Victory
             if(numHidden <= 0) {
-                displayWord = "_Y___M _H__K_NG";
-                numHidden = 8;
+                window.requestNewWord();
 
                 for(const k of usedKeys) {
                     keyboard.resetKeyState(k[0], k[1])

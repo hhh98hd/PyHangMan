@@ -6,7 +6,8 @@ QML_MAIN = './gui/main.qml'
 
 
 ##### SETTINGS #####
-RANDOM_SEED = 'COMP6250'
+RANDOM_SEED = 'NONE'
+HIDDEN_PORTION = 0.80
 LIVES = 5
 
 ##### LOGGING CONFIGS #####
