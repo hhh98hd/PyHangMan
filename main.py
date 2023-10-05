@@ -22,7 +22,8 @@ if __name__ == '__main__' :
     root.requestNewWord.connect(game.on_word_request_received)
     root.updateScore.connect(game.on_score_updated)
     root.correctChoice.connect(game.on_correct_choice)
-    root.wrongChoice.connect(game.on_wrong_choice) 
+    root.wrongChoice.connect(game.on_wrong_choice)
+    root.finishWord.connect(game.on_word_finished)
     game.new_word_ready_event.connect(root.onNewWordReceived)
     
     # Send the initial word

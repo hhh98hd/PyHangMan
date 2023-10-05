@@ -13,7 +13,6 @@ WRONG_SOUND = SOUND_DIR + 'wrong.wav'
 ##### SETTINGS #####
 RANDOM_SEED = 'NONE'
 HIDDEN_PORTION = 0.80
-LIVES = 5
 
 ##### LOGGING CONFIGS #####
 LOGGING_DIR = './log/'

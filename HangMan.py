@@ -1,4 +1,5 @@
 import random
+from time import sleep
 
 from PySide6.QtCore import QObject, QUrl, Signal
 from PySide6 import QtMultimedia
@@ -65,9 +66,9 @@ class HangMan(QObject):
                 
         if HIDDEN_PORTION < 1:
             hidden_letter_num = int(len(word) * HIDDEN_PORTION)
-            log("[HangMan::hide_letters] Hide {num} letters".format(num=hidden_letter_num))
             
             indexs = random.sample([* range(0, len(word))], hidden_letter_num)
+            hidden_num = 0
             
             hidden_word = word
             for idx in indexs:
@@ -75,17 +76,20 @@ class HangMan(QObject):
                     continue
                 else:
                     hidden_word = hidden_word[: idx] + "_" + hidden_word[idx + 1 :]
+                    hidden_num += 1
+            log("[HangMan::hide_letters] Hide {num} letters".format(num=hidden_num))
         else:
             log("[HangMan::hide_letters] Hide all letters")
             for chr in word:
                 if chr != " ": 
                     hidden_word += "_"
+                    hidden_num += 1
                 else:
                     hidden_word += " "
         
         log("[HangMan::hide_letters] {w} -> {hw}\n".format(w=word, hw=hidden_word))
         
-        return (word, hidden_word, len(indexs))
+        return (word, hidden_word, hidden_num)
         
     ################################################# EVENT HANDLERS #################################################
     
@@ -105,3 +109,7 @@ class HangMan(QObject):
     def on_wrong_choice(self):
         log("[HangMan::on_wrong_choice] Received request to play sound\n")
         self.wrong_sound.play()
+
+    def on_word_finished(self):
+        log("[HangMan::on_word_finished] Received request to play sound\n")
+        pass
