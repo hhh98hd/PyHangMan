@@ -1,3 +1,5 @@
 /__pycache__
 /log/*
 hangman.pyproject.user
+main.spec
+/dist
