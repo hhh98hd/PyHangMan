@@ -16,11 +16,13 @@ if __name__ == '__main__' :
     engine.load(QML_MAIN)
     
     game = HangMan()
-    
     root = engine.rootObjects()[0]
     
     # Connect evens to handlers
     root.requestNewWord.connect(game.on_word_request_received)
+    root.updateScore.connect(game.on_score_updated)
+    root.correctChoice.connect(game.on_correct_choice)
+    root.wrongChoice.connect(game.on_wrong_choice) 
     game.new_word_ready_event.connect(root.onNewWordReceived)
     
     # Send the initial word

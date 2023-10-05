@@ -1,11 +1,14 @@
 import random
 
-from PySide6.QtCore import QObject, Signal
+from PySide6.QtCore import QObject, QUrl, Signal
+from PySide6 import QtMultimedia
 
 from utils import (load_dictionary, log)
 from configs import (
     RANDOM_SEED,
-    HIDDEN_PORTION)
+    HIDDEN_PORTION,
+    CORRECT_SOUND,
+    WRONG_SOUND)
 
 class HangMan(QObject):
     new_word_ready_event = Signal(str, str, int)
@@ -13,22 +16,29 @@ class HangMan(QObject):
     def __init__(self) -> None:
         super().__init__()
         
-        # Events
         log('[HangMan::HangMan] Initializing ...')
                         
         # To check if a word's already appeared
         self.word_to_occurences = dict()
-        
         # To check if a letter's already been used
         self.letter_to_occurences  = dict()
         for i in range(ord('A'), ord('Z') + 1):
             self.letter_to_occurences[chr(i)] = 0
-        
+        # Load list of words
         self.data = load_dictionary()
         if 0 == len(self.data):
             raise Exception('This dictionary is empty!')
-        log('[HangMan::HangMan] Found {len} words in the dictionary'.format(len=len(self.data)))    
-                            
+        log('[HangMan::HangMan] Found {len} words in the dictionary'.format(len=len(self.data)))
+        
+        # Load sound effects
+        self.correct_sound = QtMultimedia.QSoundEffect()
+        self.correct_sound.setSource(QUrl.fromLocalFile(CORRECT_SOUND))
+        self.correct_sound.setLoopCount(1)
+        
+        self.wrong_sound = QtMultimedia.QSoundEffect()
+        self.wrong_sound.setSource(QUrl.fromLocalFile(WRONG_SOUND))
+        self.wrong_sound.setLoopCount(1)
+                                    
         self.score = 0
         
         if RANDOM_SEED != 'NONE':
@@ -83,4 +93,15 @@ class HangMan(QObject):
         log("[HangMan::on_word_request_received] GUI requests a new word\n")
         (word, hidden_word, hidden_num) = self.hide_letters( self.get_random_word())
         self.new_word_ready_event.emit(word, hidden_word, hidden_num)
+
+    def on_score_updated(self, score):
+        self.score += score
+        log("[HangMan::on_score_updated] New score: {score}\n".format(score=self.score))
         
+    def on_correct_choice(self):
+        log("[HangMan::on_correct_choice] Received request to play sound\n")
+        self.correct_sound.play()
+    
+    def on_wrong_choice(self):
+        log("[HangMan::on_wrong_choice] Received request to play sound\n")
+        self.wrong_sound.play()

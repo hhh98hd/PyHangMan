@@ -1,4 +1,4 @@
 {
-    "files": ["main.qml","log/.gitkeep","HangMan.py","gui/main.qml","configs.py","main.py","data/dictionary.txt","gui/Key.qml","utils.py","gui/Keyboard.qml"]
+    "files": ["gui/Key.qml","gui/Keyboard.qml","main.py","log/.gitkeep","assets/sound/wrong.mp3","configs.py","main.qml","HangMan.py","data/dictionary.txt","utils.py","assets/img/character.png","gui/main.qml","assets/sound/correct.wav","assets/sound/wrong.wav"]
 }
 
