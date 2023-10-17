@@ -1,4 +1,4 @@
 {
-    "files": ["gui/Key.qml","gui/Keyboard.qml","main.py","log/.gitkeep","assets/sound/wrong.mp3","configs.py","main.qml","HangMan.py","data/dictionary.txt","utils.py","assets/img/character.png","gui/main.qml","assets/sound/correct.wav","assets/sound/wrong.wav"]
+    "files": ["main.py","assets/sound/wrong.wav","log/.gitkeep","assets/img/character.png","gui/Key.qml","gui/Keyboard.qml","main.qml","assets/sound/wrong.mp3","data/dictionary.txt","gui/main.qml","utils.py","HangMan.py","configs.py","assets/sound/correct.wav","assets/img/lightbulb.png","assets/img/lightbulb_hovered.png"]
 }
 

@@ -84,6 +84,54 @@ ApplicationWindow {
             }
         }
 
+        Rectangle {
+            z: 999999
+            id: btn_hint
+            anchors.top: text_bar.bottom
+            anchors.topMargin: 5
+            anchors.left: text_bar.left
+            anchors.leftMargin: 5
+            width: 55
+            height: 55
+            radius: 8
+            color: "#abdbe3"
+
+            Image {
+                id: img_lighbulb
+                anchors.centerIn: parent
+                width: 45
+                height: 45
+                source: "../assets/img/lightbulb.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
+                onEntered: {
+                    img_lighbulb.source = "../assets/img/lightbulb_hovered.png"
+                    parent.color = "#0967a4";
+                }
+
+                onExited: {
+                    img_lighbulb.source = "../assets/img/lightbulb.png"
+                    parent.color = "#abdbe3";
+                }
+
+                onPressed: {
+                    parent.color = "#e28743";
+                }
+
+                onReleased: {
+                    parent.color = "#0967a4";
+                }
+
+                onClicked: {
+                    console.log('HINT')
+                }
+            }
+        }
+
         Image {
             id: character
             height: window.height * 0.85
@@ -121,6 +169,7 @@ ApplicationWindow {
         }
 
         Rectangle {
+            id: text_bar
             anchors.verticalCenter: text.verticalCenter
             width: window.width
             height: text.height + 10
