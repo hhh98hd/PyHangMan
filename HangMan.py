@@ -6,13 +6,16 @@ from PySide6 import QtMultimedia
 
 from utils import (load_dictionary, log)
 from configs import (
+    WORD_SPLIT,
+    WORD_DEFINITION_SPLIT,
     RANDOM_SEED,
     HIDDEN_PORTION,
     CORRECT_SOUND,
-    WRONG_SOUND)
+    WRONG_SOUND,
+    COMPLETETION_SOUND)
 
 class HangMan(QObject):
-    new_word_ready_event = Signal(str, str, int)
+    new_word_ready_event = Signal(str, str, str, str, int)
     
     def __init__(self) -> None:
         super().__init__()
@@ -39,6 +42,10 @@ class HangMan(QObject):
         self.wrong_sound = QtMultimedia.QSoundEffect()
         self.wrong_sound.setSource(QUrl.fromLocalFile(WRONG_SOUND))
         self.wrong_sound.setLoopCount(1)
+        
+        self.completetion_sound = QtMultimedia.QSoundEffect()
+        self.completetion_sound.setSource(QUrl.fromLocalFile(COMPLETETION_SOUND))
+        self.completetion_sound.setLoopCount(1)
                                     
         self.score = 0
         
@@ -53,13 +60,15 @@ class HangMan(QObject):
         while(True):
             rand_idx = random.randint(0, len(self.data) - 1)
             word = self.data[rand_idx]
+            word, extra_info = word.split(WORD_SPLIT)
+            hint, definition = extra_info.split(WORD_DEFINITION_SPLIT)
             
             if word not in self.word_to_occurences:
                 self.word_to_occurences[word] = 0
                 
                 log("[HangMan::get_random_word] Returning \"" + word + "\"\n")
                 
-                return word.upper()
+                return word.upper(), hint, definition
             
     def hide_letters(self, word: str) -> str:
         hidden_word = ""
@@ -95,8 +104,9 @@ class HangMan(QObject):
     
     def on_word_request_received(self):
         log("[HangMan::on_word_request_received] GUI requests a new word\n")
-        (word, hidden_word, hidden_num) = self.hide_letters( self.get_random_word())
-        self.new_word_ready_event.emit(word, hidden_word, hidden_num)
+        word, hint, definition  = self.get_random_word()
+        (word, hidden_word, hidden_num) = self.hide_letters(word)
+        self.new_word_ready_event.emit(word, hidden_word, hint, definition, hidden_num)
 
     def on_score_updated(self, score):
         self.score += score
@@ -112,4 +122,5 @@ class HangMan(QObject):
 
     def on_word_finished(self):
         log("[HangMan::on_word_finished] Received request to play sound\n")
+        self.completetion_sound.play()
         pass

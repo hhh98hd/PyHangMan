@@ -1,5 +1,7 @@
 ##### DICTIONARY #####
 DICT_PATH = './data/dictionary.txt'
+WORD_SPLIT = '@'
+WORD_DEFINITION_SPLIT = '#'
 
 ##### GUI #####
 QML_MAIN = './gui/main.qml'
@@ -9,6 +11,7 @@ QML_MAIN = './gui/main.qml'
 SOUND_DIR = './assets/sound/'
 CORRECT_SOUND = SOUND_DIR + 'correct.wav'
 WRONG_SOUND = SOUND_DIR + 'wrong.wav'
+COMPLETETION_SOUND = SOUND_DIR + 'achievement.mp3'
 
 ##### SETTINGS #####
 RANDOM_SEED = 'NONE'

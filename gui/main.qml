@@ -15,9 +15,11 @@ ApplicationWindow {
     signal wrongChoice();
     signal finishWord();
 
-    function onNewWordReceived(word: string, hiddenWord: string, numHidden: int) {
+    function onNewWordReceived(word: string, hiddenWord: string, hint: string, definition: string, numHidden: int) {
         root.answer = word;
         root.displayWord = hiddenWord;
+        root.hint = hint;
+        root.definition = definition;
         root.numHidden = numHidden;
         root.lives = 5;
     }
@@ -32,6 +34,8 @@ ApplicationWindow {
 
         property string answer: ""
         property string displayWord: ""
+        property string hint: ""
+        property string definition: ""
         property int numHidden: 0;
         property var usedKeys: []
         property int lives: 5
@@ -66,7 +70,10 @@ ApplicationWindow {
                 window.correctChoice();
             }
 
+            // Completition
             if(displayWord == answer) {
+                window.finishWord();
+
                 timer.start();
 
                 character.y = root.initialY;
@@ -114,6 +121,7 @@ ApplicationWindow {
         }
 
         Rectangle {
+            anchors.verticalCenter: text.verticalCenter
             width: window.width
             height: text.height + 10
             color: "white"
@@ -129,7 +137,6 @@ ApplicationWindow {
             onTriggered: {
                 window.updateScore(100);
                 window.requestNewWord();
-                window.finishWord();
                 window.updateScore(100);
                 window.requestNewWord();
             }

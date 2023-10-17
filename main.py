@@ -27,7 +27,8 @@ if __name__ == '__main__' :
     game.new_word_ready_event.connect(root.onNewWordReceived)
     
     # Send the initial word
-    (word, hidden_word, hidden_num) = game.hide_letters(game.get_random_word())
-    game.new_word_ready_event.emit(word, hidden_word, hidden_num)
+    word, hint, definition  = game.get_random_word()
+    (word, hidden_word, hidden_num) = game.hide_letters(word)
+    game.new_word_ready_event.emit(word, hidden_word, hint, definition, hidden_num)
     
     sys.exit(app.exec())
