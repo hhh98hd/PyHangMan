@@ -64,8 +64,9 @@ ApplicationWindow {
             if(!isCorrect) {
                 window.wrongChoice();
                 keyboard.setKeyColor(row, index, "red")
-                character.y += 80;
+                character.y += 70;
                 lives -= 1;
+                console.log(lives)
             } else if(isCorrect){
                 window.correctChoice();
             }
@@ -171,6 +172,15 @@ ApplicationWindow {
             }
         }
 
+        Rectangle {
+            id:  keyboard_bar
+            width: root.width
+            height: 10
+            color: "black"
+            anchors.bottom: keyboard.top
+            anchors.bottomMargin: 10
+        }
+
         Keyboard {
             id: keyboard
             anchors.horizontalCenter: parent.horizontalCenter
@@ -198,6 +208,25 @@ ApplicationWindow {
             height: text.height + 10
             color: "white"
             opacity: 0.8
+        }
+
+        Image {
+            id: saw
+            z: keyboard.z - 1
+            width: 1.2 * character.width
+            anchors.verticalCenter: keyboard_bar.top
+            anchors.horizontalCenter: root.horizontalCenter
+            source: "../assets/img/saw.png"
+            fillMode: Image.PreserveAspectFit
+
+            RotationAnimator {
+                target: saw
+                from: 0
+                to: 360
+                duration: 1000
+                loops: Animator.Infinite
+                running: true
+            }
         }
     }
 }
