@@ -1,4 +1,4 @@
 {
-    "files": ["main.py","assets/sound/achievement.mp3","gui/main.qml","assets/img/character.png","gui/Modal.qml","assets/sound/wrong.mp3","data/dictionary.txt","gui/Keyboard.qml","gui/Key.qml","assets/img/lightbulb_hovered.png","utils.py","assets/sound/wrong.wav","configs.py","assets/sound/correct.wav","assets/img/lightbulb.png","main.qml","HangMan.py","log/.gitkeep"]
+    "files": ["main.py","assets/sound/achievement.mp3","gui/main.qml","assets/img/character.png","gui/Modal.qml","assets/sound/wrong.mp3","data/dictionary.txt","gui/Keyboard.qml","gui/Key.qml","assets/img/lightbulb_hovered.png","utils.py","assets/img/character_dead.png","assets/sound/wrong.wav","configs.py","assets/sound/correct.wav","assets/img/lightbulb.png","main.qml","HangMan.py","assets/sound/game_over.wav","gui/GameOverModal.qml","log/.gitkeep"]
 }
 

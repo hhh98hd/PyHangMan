@@ -12,6 +12,7 @@ SOUND_DIR = './assets/sound/'
 CORRECT_SOUND = SOUND_DIR + 'correct.wav'
 WRONG_SOUND = SOUND_DIR + 'wrong.wav'
 COMPLETETION_SOUND = SOUND_DIR + 'achievement.mp3'
+GAME_OVER_SOUND = SOUND_DIR + 'game_over.wav'
 
 ##### SETTINGS #####
 RANDOM_SEED = 'NONE'

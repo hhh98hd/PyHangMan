@@ -14,14 +14,18 @@ ApplicationWindow {
     signal correctChoice();
     signal wrongChoice();
     signal finishWord();
+    signal gameOver();
+    signal restarted();
 
-    function onNewWordReceived(word: string, hiddenWord: string, hint: string, definition: string, numHidden: int) {
+    function onNewWordReceived(word: string, displayWord: string, hint: string, definition: string, numHidden: int) {
         root.answer = word;
-        root.displayWord = hiddenWord;
+        root.displayWord = displayWord;
         root.hint = hint;
         root.definition = definition;
         root.numHidden = numHidden;
         root.lives = 5;
+
+        text.text = displayWord
     }
 
     Rectangle {
@@ -30,7 +34,6 @@ ApplicationWindow {
         color: "transparent"
 
         property int initialY: -450
-        property int timeBetweenWordsMs: 1500
 
         property string answer: ""
         property string displayWord: ""
@@ -39,6 +42,7 @@ ApplicationWindow {
         property int numHidden: 0;
         property var usedKeys: []
         property int lives: 5
+        property int score: 0
 
         function onKeyPressed(key : string, row : int, index : int) {
             if(displayWord.includes(key) && answer.split(key).length - 1 == 1) {
@@ -57,6 +61,7 @@ ApplicationWindow {
                 if(answer.charAt(i) === key) {
                     keyboard.setKeyColor(row, index, "green")
                     displayWord = displayWord.substr(0, i) + key + displayWord.substr(i + 1)
+                    text.text = displayWord
                     isCorrect = true
                 }
             }
@@ -66,14 +71,27 @@ ApplicationWindow {
                 keyboard.setKeyColor(row, index, "red")
                 character.y += 70;
                 lives -= 1;
-                console.log(lives)
             } else if(isCorrect){
                 window.correctChoice();
+            }
+
+            // Game over
+            if (lives <= 0) {
+                window.gameOver()
+                character.visible = false;
+
+                game_over_modal.visible = true;
+                game_over_modal.gameOverText = root.definition
+                game_over_modal.gameOverScore = root.score
+
+                text.text = root.answer
             }
 
             // Completition
             if(displayWord == answer) {
                 window.finishWord();
+                root.score += 100
+
                 definition_modal.visible = true;
                 definition_modal.modalText = root.definition
 
@@ -103,6 +121,31 @@ ApplicationWindow {
             onVisibleChanged: {
                 if(visible == false) {
                     window.requestNewWord();
+                }
+            }
+        }
+
+        GameOverModal {
+            id: game_over_modal
+            z: btn_hint.z + 1
+            anchors.fill: parent
+            visible: false
+
+            onVisibleChanged: {
+                if(visible == false) {
+                    window.restarted()
+                    window.requestNewWord()
+
+                    text.text = root.displayWord
+
+                    root.score = 0
+
+                    character.visible = true;
+                    character.y = root.initialY;
+
+                    for(const k of root.usedKeys) {
+                        keyboard.resetKeyState(k[0], k[1])
+                    }
                 }
             }
         }
@@ -190,7 +233,7 @@ ApplicationWindow {
 
         Text {
             id: text
-            z: 9999
+            z: btn_hint.z + 2
             anchors.horizontalCenter: root.horizontalCenter
             anchors.top: root.top
             anchors.topMargin: 8
@@ -203,6 +246,7 @@ ApplicationWindow {
 
         Rectangle {
             id: text_bar
+            z: btn_hint.z + 1
             anchors.verticalCenter: text.verticalCenter
             width: window.width
             height: text.height + 10

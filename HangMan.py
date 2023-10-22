@@ -12,7 +12,8 @@ from configs import (
     HIDDEN_PORTION,
     CORRECT_SOUND,
     WRONG_SOUND,
-    COMPLETETION_SOUND)
+    COMPLETETION_SOUND,
+    GAME_OVER_SOUND)
 
 class HangMan(QObject):
     new_word_ready_event = Signal(str, str, str, str, int)
@@ -46,9 +47,11 @@ class HangMan(QObject):
         self.completetion_sound = QtMultimedia.QSoundEffect()
         self.completetion_sound.setSource(QUrl.fromLocalFile(COMPLETETION_SOUND))
         self.completetion_sound.setLoopCount(1)
-                                    
-        self.score = 0
         
+        self.gameover_sound = QtMultimedia.QSoundEffect()
+        self.gameover_sound.setSource(QUrl.fromLocalFile(GAME_OVER_SOUND))
+        self.gameover_sound.setLoopCount(int(QtMultimedia.QSoundEffect.Loop.Infinite.value))
+                                            
         if RANDOM_SEED != 'NONE':
             log('[HangMan::HangMan] Using {seed} as random seed'.format(seed=RANDOM_SEED))
             random.seed(RANDOM_SEED)
@@ -107,10 +110,6 @@ class HangMan(QObject):
         word, hint, definition  = self.get_random_word()
         (word, hidden_word, hidden_num) = self.hide_letters(word)
         self.new_word_ready_event.emit(word, hidden_word, hint, definition, hidden_num)
-
-    def on_score_updated(self, score):
-        self.score += score
-        log("[HangMan::on_score_updated] New score: {score}\n".format(score=self.score))
         
     def on_correct_choice(self):
         log("[HangMan::on_correct_choice] Received request to play sound\n")
@@ -123,4 +122,14 @@ class HangMan(QObject):
     def on_word_finished(self):
         log("[HangMan::on_word_finished] Received request to play sound\n")
         self.completetion_sound.play()
+    
+    def on_game_over(self):
+        log("[HangMan::on_game_over] Received request to play sound\n")
+        self.gameover_sound.play()
         pass
+    
+    def on_game_restarted(self):
+        log("[HangMan::on_game_restarted] GUI requests to restart the game\n")
+        self.word_to_occurences = dict()
+        self.letter_to_occurences  = dict()
+        self.gameover_sound.stop()

@@ -20,10 +20,12 @@ if __name__ == '__main__' :
     
     # Connect evens to handlers
     root.requestNewWord.connect(game.on_word_request_received)
-    root.updateScore.connect(game.on_score_updated)
     root.correctChoice.connect(game.on_correct_choice)
     root.wrongChoice.connect(game.on_wrong_choice)
     root.finishWord.connect(game.on_word_finished)
+    root.gameOver.connect(game.on_game_over)
+    root.restarted.connect(game.on_game_restarted)
+    
     game.new_word_ready_event.connect(root.onNewWordReceived)
     
     # Send the initial word
