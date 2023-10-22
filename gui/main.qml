@@ -73,13 +73,35 @@ ApplicationWindow {
             // Completition
             if(displayWord == answer) {
                 window.finishWord();
-
-                timer.start();
+                definition_modal.visible = true;
+                definition_modal.modalText = root.definition
 
                 character.y = root.initialY;
 
                 for(const k of root.usedKeys) {
                     keyboard.resetKeyState(k[0], k[1])
+                }
+            }
+        }
+
+        Modal {
+            width: parent.width
+            id: hint_modal
+            z: btn_hint.z + 1
+            anchors.fill: parent
+            visible: false
+        }
+
+        Modal {
+            width: parent.width
+            id: definition_modal
+            z: btn_hint.z + 1
+            anchors.fill: parent
+            visible: false
+
+            onVisibleChanged: {
+                if(visible == false) {
+                    window.requestNewWord();
                 }
             }
         }
@@ -127,7 +149,8 @@ ApplicationWindow {
                 }
 
                 onClicked: {
-                    console.log('HINT')
+                    hint_modal.modalText = root.hint;
+                    hint_modal.visible = true;
                 }
             }
         }
@@ -175,20 +198,6 @@ ApplicationWindow {
             height: text.height + 10
             color: "white"
             opacity: 0.8
-        }
-
-        Timer {
-            id: timer
-            interval: root.timeBetweenWordsMs
-            running: false
-            repeat: false // one-shot timer
-
-            onTriggered: {
-                window.updateScore(100);
-                window.requestNewWord();
-                window.updateScore(100);
-                window.requestNewWord();
-            }
         }
     }
 }
