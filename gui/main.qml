@@ -185,7 +185,7 @@ ApplicationWindow {
             anchors.top: text_bar.bottom
             anchors.topMargin: 5
             anchors.left: text_bar.left
-            anchors.leftMargin: 5
+            anchors.leftMargin: 8
             width: 55
             height: 55
             radius: 8
@@ -226,6 +226,16 @@ ApplicationWindow {
                     hint_modal.visible = true;
                 }
             }
+        }
+
+        Text {
+            id: text_score
+            anchors.verticalCenter: btn_hint.verticalCenter
+            anchors.right: text_bar.right
+            anchors.rightMargin: 8
+            text: qsTr("Score: ") + root.score
+            font.pixelSize: 22
+            font.bold: true
         }
 
         Image {
