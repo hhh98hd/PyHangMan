@@ -44,6 +44,7 @@ Item {
             MouseArea {
                 id: modal_btn_ok_mouse_area
                 anchors.fill: parent
+
                 onPressed: {
                     parent.color = "#e28743";
                 }

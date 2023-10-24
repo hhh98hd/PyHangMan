@@ -13,10 +13,16 @@ CORRECT_SOUND = SOUND_DIR + 'correct.wav'
 WRONG_SOUND = SOUND_DIR + 'wrong.wav'
 COMPLETETION_SOUND = SOUND_DIR + 'achievement.mp3'
 GAME_OVER_SOUND = SOUND_DIR + 'game_over.wav'
+VICTORY_SOUND = SOUND_DIR + 'victory.wav'
 
 ##### SETTINGS #####
 RANDOM_SEED = 'NONE'
 HIDDEN_PORTION = 0.80
+
+USE_SPECIAL_WORD = True
+SPECIAL_WORD = 'Yan Sun'
+SPECIAL_HINT = "Among us ..."
+SPECIAL_DEFINITION = "Thank you for your support and guidance!"
 
 ##### LOGGING CONFIGS #####
 LOGGING_DIR = './log/'

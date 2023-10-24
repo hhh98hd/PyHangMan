@@ -1,5 +1,4 @@
 import random
-from time import sleep
 
 from PySide6.QtCore import QObject, QUrl, Signal
 from PySide6 import QtMultimedia
@@ -10,16 +9,25 @@ from configs import (
     WORD_DEFINITION_SPLIT,
     RANDOM_SEED,
     HIDDEN_PORTION,
+    
     CORRECT_SOUND,
     WRONG_SOUND,
     COMPLETETION_SOUND,
-    GAME_OVER_SOUND)
+    GAME_OVER_SOUND,
+    VICTORY_SOUND,
+    
+    USE_SPECIAL_WORD,
+    SPECIAL_WORD,
+    SPECIAL_HINT,
+    SPECIAL_DEFINITION)
 
 class HangMan(QObject):
     new_word_ready_event = Signal(str, str, str, str, int)
     
     def __init__(self) -> None:
         super().__init__()
+        
+        self.special_word_used = False
         
         log('[HangMan::HangMan] Initializing ...')
                         
@@ -50,7 +58,11 @@ class HangMan(QObject):
         
         self.gameover_sound = QtMultimedia.QSoundEffect()
         self.gameover_sound.setSource(QUrl.fromLocalFile(GAME_OVER_SOUND))
-        self.gameover_sound.setLoopCount(int(QtMultimedia.QSoundEffect.Loop.Infinite.value))
+        self.gameover_sound.setLoopCount(QtMultimedia.QSoundEffect.Loop.Infinite.value)
+        
+        self.victory_sound = QtMultimedia.QSoundEffect()
+        self.victory_sound.setSource(QUrl.fromLocalFile(VICTORY_SOUND))
+        self.victory_sound.setLoopCount(1)
                                             
         if RANDOM_SEED != 'NONE':
             log('[HangMan::HangMan] Using {seed} as random seed'.format(seed=RANDOM_SEED))
@@ -106,11 +118,28 @@ class HangMan(QObject):
     ################################################# EVENT HANDLERS #################################################
     
     def on_word_request_received(self):
+        word = ""
+        hint = ""
+        definition = ""
+                
         log("[HangMan::on_word_request_received] GUI requests a new word\n")
-        word, hint, definition  = self.get_random_word()
+        if(len(self.word_to_occurences) < len(self.data)):
+            word, hint, definition  = self.get_random_word()
+        else:
+            if USE_SPECIAL_WORD:
+                if not self.special_word_used:
+                    word = SPECIAL_WORD.upper()
+                    hint = SPECIAL_HINT
+                    definition = SPECIAL_DEFINITION
+                    
+                    self.special_word_used = True
+            
         (word, hidden_word, hidden_num) = self.hide_letters(word)
         self.new_word_ready_event.emit(word, hidden_word, hint, definition, hidden_num)
         
+        if word == "":
+            self.victory_sound.play()
+                
     def on_correct_choice(self):
         log("[HangMan::on_correct_choice] Received request to play sound\n")
         self.correct_sound.play()
@@ -126,8 +155,7 @@ class HangMan(QObject):
     def on_game_over(self):
         log("[HangMan::on_game_over] Received request to play sound\n")
         self.gameover_sound.play()
-        pass
-    
+        
     def on_game_restarted(self):
         log("[HangMan::on_game_restarted] GUI requests to restart the game\n")
         self.word_to_occurences = dict()

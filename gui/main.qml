@@ -18,6 +18,12 @@ ApplicationWindow {
     signal restarted();
 
     function onNewWordReceived(word: string, displayWord: string, hint: string, definition: string, numHidden: int) {
+        if(word === "" && hint === "" && definition === "") {
+            victory_modal.visible = true;
+            victory_modal.victoryScore = root.score
+            return;
+        }
+
         root.answer = word;
         root.displayWord = displayWord;
         root.hint = hint;
@@ -104,7 +110,6 @@ ApplicationWindow {
         }
 
         Modal {
-            width: parent.width
             id: hint_modal
             z: btn_hint.z + 1
             anchors.fill: parent
@@ -112,7 +117,6 @@ ApplicationWindow {
         }
 
         Modal {
-            width: parent.width
             id: definition_modal
             z: btn_hint.z + 1
             anchors.fill: parent
@@ -127,6 +131,31 @@ ApplicationWindow {
 
         GameOverModal {
             id: game_over_modal
+            z: btn_hint.z + 1
+            anchors.fill: parent
+            visible: false
+
+            onVisibleChanged: {
+                if(visible == false) {
+                    window.restarted()
+                    window.requestNewWord()
+
+                    text.text = root.displayWord
+
+                    root.score = 0
+
+                    character.visible = true;
+                    character.y = root.initialY;
+
+                    for(const k of root.usedKeys) {
+                        keyboard.resetKeyState(k[0], k[1])
+                    }
+                }
+            }
+        }
+
+        VictoryModal {
+            id: victory_modal
             z: btn_hint.z + 1
             anchors.fill: parent
             visible: false
