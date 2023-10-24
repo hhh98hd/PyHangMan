@@ -6,7 +6,11 @@ ApplicationWindow {
     id: window
     visible: true
     width: 600
+    maximumWidth: 600
+    minimumWidth: 600
     height: 800
+    maximumHeight: 800
+    minimumHeight: 800
     title: "Hang Man"
 
     signal requestNewWord();
