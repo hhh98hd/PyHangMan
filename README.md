@@ -26,3 +26,15 @@ https://github.com/hhh98hd/PyHangMan/assets/26799260/13f74332-a0d3-4715-8d2f-af8
 4. If you make too many incorrect choices (5 times), the character will be shredded by the saw and GAME OVER.
 
    ![game_over](https://github.com/hhh98hd/PyHangMan/assets/26799260/31ac4950-e1f0-47c2-9ab5-a57318b3c0ae)
+
+## Update the word list
+If you wish to update the word list, you can modify [dictionary](/data/dictionary.txt). Plese follow below rules when updating the dictionary:
+1. Each line must has the following format: **word@hint@definition**. If you do not want to have a hint or definition, please use **word@@definition** or **word@hint@"
+2. Each word must be on 1 line only.
+
+## Acknowledgements
+This game is not for commercial purposes.
+External resources
+Components from [QtFrameWork](https://www.qt.io/product/framework).
+- Sound effects from https://www.freesoundeffects.com.
+- The gameover soundtrack: Track 06 (Ian Livingstone - Heavy Weapon).
