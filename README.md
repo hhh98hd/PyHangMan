@@ -1,6 +1,11 @@
 # PyHangMan
 This game is my toolkit for ANU course COMP6250 - Professional Practice I. It is based on the traditional game "Hang Man" and the player's task is very simple: Guess the word before running out of turns (when the character touches the saw).
 
+
+https://github.com/hhh98hd/PyHangMan/assets/26799260/13f74332-a0d3-4715-8d2f-af8ab5c43bd7
+
+
+
 ## How to install?
 - **Method 1: Build from source**
 1. Pull this repository
